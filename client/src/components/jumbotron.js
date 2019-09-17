@@ -38,7 +38,7 @@ export const Jumbotron = props => (
             fontSize: "30px"
           }}
         >
-          Intelegent Tourist Guide
+          Intelligent Tourist Guide
         </h1>
         <p style={{ color: "white", fontWeight: "900" }}>
           We are providing the best service to our user to get the information
