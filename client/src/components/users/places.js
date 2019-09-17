@@ -127,7 +127,7 @@ const Data = props => (
   </tr>
 );
 
-export default function Notifications(props) {
+export default function Places(props) {
   const [notifications, setNotifications] = useState([]);
   const classes = useStyles();
   useEffect(() => {
@@ -157,10 +157,10 @@ export default function Notifications(props) {
                 >
                   <thead>
                     <tr>
-                      <th>Leave Date</th>
-                      <th>Status</th>
-                      <th>Reason</th>
-                      <th>Actions</th>
+                      <th>Place Name</th>
+                      <th>City</th>
+                      <th>Catogory</th>
+                      <th>Relevancy</th>
                     </tr>
                   </thead>
                   <tbody>{notificationsList(notifications)}</tbody>
