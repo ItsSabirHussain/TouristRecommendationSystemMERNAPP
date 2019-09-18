@@ -1,12 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { usePosition } from "use-position";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { Jumbotron } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { GoogleComponent } from "./locationtextbox/googlecomponent";
+import Geocode from "react-geocode";
+
+const API_KEY = "AIzaSyDWpi_sAXeY7VB7_Btf1dUHjE5y6sEg03w";
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+
+// set response language. Defaults to english.
+
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
 
 function Copyright() {
   return (
@@ -106,25 +122,34 @@ export default function Main(props) {
     FullName: "",
     Email: ""
   });
-  const [currentCity, setCurrentCity] = React.useState({ City: "" });
 
-  var pos = {
-    lat: 40.7809261,
-    lng: -73.9637594
-  };
   const onClick = e => {
-    e.preventDefault();
-    axios
-      .post("/addplace", { City: currentCity.City })
-      .then(res => {
-        props.history.push("/admindashboard");
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    console.log(place);
   };
+  const { latitude, longitude, timestamp, accuracy, error } = usePosition(true);
 
   useEffect(() => {
+    Geocode.fromLatLng("48.8583701", "2.2922926").then(
+      response => {
+        const address = response.results[0].formatted_address;
+        console.log(address);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
+    // Get latidude & longitude from address.
+    Geocode.fromAddress("Eiffel Tower").then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
     if (userInfo.FullName === "") {
       axios
         .post("/getuser", { ID: localStorage.getItem("userID") })
@@ -139,6 +164,7 @@ export default function Main(props) {
         .catch(error => console.log(error));
     }
   });
+  const [place, setPlace] = useState(null);
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
@@ -155,20 +181,15 @@ export default function Main(props) {
             </Jumbotron>
             <Grid item xs={12} md={8} lg={9}>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="city"
-                  label={"City eg: Perth"}
-                  name="city"
-                  autoComplete="city"
-                  onChange={e =>
-                    setCurrentCity({
-                      currentCity: e.target.value
-                    })
-                  }
-                />{" "}
+                <GoogleComponent
+                  apiKey={API_KEY}
+                  language={"en"}
+                  country={"country:in"}
+                  coordinates={true}
+                  onChange={e => {
+                    setPlace({ place: e });
+                  }}
+                />
               </Grid>
               <br></br>
               <Grid item xs={12} md={8} lg={9}>

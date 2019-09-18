@@ -159,7 +159,7 @@ export default function UserReg(props) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/cuserlogin">Already have an account? Sign in</Link>
+              <Link to="/userlogin">Already have an account? Sign in</Link>
             </Grid>
           </Grid>
         </form>
