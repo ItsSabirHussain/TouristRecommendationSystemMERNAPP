@@ -111,7 +111,7 @@ export default function AllPlacesList(props) {
     <tr>
       <td>{p.data.Name}</td>
       <td>{p.data.Category}</td>
-      <td>{p.data.Tags}</td>
+      <td>{p.data.Tags.join("  ,  ")}</td>
       <td>
         <Button
           fullWidth
@@ -122,7 +122,7 @@ export default function AllPlacesList(props) {
           onClick={e => {
             localStorage.setItem("lat", p.data.Latitude);
             localStorage.setItem("lng", p.data.Longitude);
-            localStorage.setItem("name", p.data.Name);
+            localStorage.setItem("text", p.data.Name);
             props.history.push("/admindashboard/map");
           }}
         >
@@ -165,25 +165,20 @@ export default function AllPlacesList(props) {
       <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Container component="main" className={classes.main} maxWidth="sm">
-              <div>
-                <h3>List of all places</h3>
-                <table
-                  className="table table-striped"
-                  style={{ marginTop: 20 }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Place Name</th>
-                      <th>Category</th>
-                      <th>Tags</th>
-                      <th>Map View</th>
-                    </tr>
-                  </thead>
-                  <tbody>{AllPlacesList(AllPlaces)}</tbody>
-                </table>
-              </div>
-            </Container>
+            <div>
+              <h3>List of all places</h3>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Place Name</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Map View</th>
+                  </tr>
+                </thead>
+                <tbody>{AllPlacesList(AllPlaces)}</tbody>
+              </table>
+            </div>
           </Grid>
         </Grid>
       </Container>

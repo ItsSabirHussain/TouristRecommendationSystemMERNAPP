@@ -124,12 +124,8 @@ router.route("/updateccity").post(function(req, res) {
           return res.status(400).send("City update not possible");
         });
     } else {
-      const newCity = CurrentCity({
-        City: req.body.City,
-        ID: req.body.ID
-      });
-      newCity
-        .save()
+      (cl.City = req.body.City), (cl.ID = req.body.ID);
+      cl.save()
         .then(todo => {
           return res.json("City updated");
         })
@@ -144,6 +140,7 @@ router.post("/getrplaces", function(req, res) {
   console.log(req.body.ID);
   User.findOne({ ID: req.body.ID }, function(err, user) {
     const interests = user.Interests;
+    console.log(interests);
     CurrentCity.findOne({ ID: req.body.ID }, function(err, city) {
       const ucity = city.City;
       Place.find({ City: ucity }, function(err, places) {
@@ -155,8 +152,8 @@ router.post("/getrplaces", function(req, res) {
           places.forEach((v, i, a) => {
             console.log("outer" + i);
             chk = false;
-            console.log(v.Tags[0].split(","));
-            v.Tags[0].split(",").forEach((vv, ii, aa) => {
+            console.log(v.Tags);
+            v.Tags.forEach((vv, ii, aa) => {
               console.log("inner" + ii);
               if (interests.includes(vv)) {
                 console.log("Added");
@@ -167,7 +164,17 @@ router.post("/getrplaces", function(req, res) {
               result.push(v);
             }
           });
-          return res.json(places);
+          if (!result === []) {
+            return res.json(result);
+          } else {
+            return res.json([
+              {
+                Name: "None",
+                Category: "None",
+                Tags: ["None", "None"]
+              }
+            ]);
+          }
         } else {
         }
       });

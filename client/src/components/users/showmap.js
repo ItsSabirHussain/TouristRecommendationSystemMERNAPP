@@ -20,8 +20,8 @@ const MapWithAMarker = compose(
     <GoogleMap
       defaultZoom={10}
       defaultCenter={{
-        lat: 25.2744,
-        lng: 133.7751
+        lat: Number(localStorage.getItem("lat")),
+        lng: Number(localStorage.getItem("lng"))
       }}
       fullscreenontrol="true"
     >
@@ -117,6 +117,8 @@ export default function Map() {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Container component="main" className={classes.main} maxWidth="sm">
+              <h1 className="dispaly-6">{localStorage.getItem("text")}</h1>
+
               <MapWithAMarker
                 markers={[
                   {

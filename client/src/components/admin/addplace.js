@@ -18,6 +18,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
+import PlaceIcon from "@material-ui/icons/Place";
 
 const useStyles2 = makeStyles(theme => ({
   root: {
@@ -52,108 +53,7 @@ const MenuProps = {
   }
 };
 
-const names = [
-  "Air sports",
-  "Archery",
-  "Astronomy",
-  "Backpacking",
-  "BASE jumping",
-  "Baseball",
-  "Basketball",
-  "Beekeeping",
-  "Bird watching",
-  "Blacksmithing",
-  "BMX",
-  "Board sports",
-  "Bodybuilding",
-  "Butterfly watching",
-  "Camping",
-  "Canoeing",
-  "Canyoning",
-  "Caving",
-  "Composting",
-  "Dowsing",
-  "Driving",
-  "Fishing",
-  "Flag football",
-  "Flower growing",
-  "Flying",
-  "Flying disc",
-  "Foraging",
-  "Freestyle football",
-  "Gardening",
-  "Geocaching",
-  "Ghost hunting",
-  "Gold prospecting",
-  "Graffiti",
-  "Handball",
-  "Herbalism",
-  "Herping",
-  "High-power rocketry",
-  "Hiking",
-  "Hobby horsing",
-  "Hooping",
-  "Horseback riding",
-  "Hunting",
-  "Inline skating",
-  "Jogging",
-  "Kayaking",
-  "Kite flying",
-  "Kitesurfing",
-  "Lacrosse",
-  "LARPing",
-  "Letterboxing",
-  "Longboarding",
-  "Martial arts",
-  "Metal detecting",
-  "Meteorology",
-  "Motor sports",
-  "Mountain biking",
-  "Nordic skating",
-  "Orienteering",
-  "Paintball",
-  "Parkour",
-  "Photography",
-  "Podcast hosting",
-  "Polo",
-  "Powerlifting",
-  "Rugby",
-  "Running",
-  "Sailing",
-  "Sand art",
-  "Scouting",
-  "Scuba diving",
-  "Sculling or rowing",
-  "Shooting",
-  "Shopping",
-  "Skateboarding",
-  "Skiing",
-  "Skimboarding",
-  "Skydiving",
-  "Slacklining",
-  "Snowboarding",
-  "Soccer",
-  "Stone skipping",
-  "Sun bathing",
-  "Surfing",
-  "Survivalism",
-  "Swimming",
-  "Taekwondo",
-  "Tai chi",
-  "Topiary",
-  "Travel",
-  "Urban exploration",
-  "Vacation",
-  "Vegetable farming",
-  "Vehicle restoration",
-  "Walking",
-  " Water sports",
-  "Rafting",
-  "Rappelling",
-  "Road biking",
-  "Rock climbing",
-  " Roller skating"
-];
+const names = ["Hotel", "GYM", "Beauty", "Shopping", "Dinning", "Education"];
 
 function getStyles(name, personName, theme) {
   return {
@@ -169,7 +69,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link to="/" style={{ textDecoration: "none" }}>
-        The website{" "}
+        Intelligent Tourist Guide{" "}
       </Link>
       {new Date().getFullYear()}
       {"."}
@@ -243,9 +143,11 @@ export default function AddPlace(props) {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <br></br>
+      <br></br>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <AddIcon />
+          <PlaceIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Add Place

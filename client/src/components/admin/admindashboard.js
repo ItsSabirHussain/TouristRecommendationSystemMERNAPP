@@ -24,7 +24,7 @@ import Main from "./main";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UpdateProfile from "./updateprofile";
 import AddPlace from "./addplace";
-import AllPlacesList from "./viewallleaves";
+import AllPlacesList from "./viewallplaces";
 import UpdatePlace from "./updateplace";
 import Map from "../users/showmap";
 
