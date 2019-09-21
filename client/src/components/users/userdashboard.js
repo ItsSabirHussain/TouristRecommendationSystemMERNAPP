@@ -217,6 +217,7 @@ export default function Userdashboard(props) {
           component={UpdateProfile}
         />
         <Route exact path="/userdashboard/rplaces" component={ViewRPlace} />
+        <Route exact path="/userdashboard/map" component={Map} />
       </Switch>
     </div>
   );

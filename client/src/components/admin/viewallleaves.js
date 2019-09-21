@@ -123,7 +123,7 @@ export default function AllPlacesList(props) {
             localStorage.setItem("lat", p.data.Latitude);
             localStorage.setItem("lng", p.data.Longitude);
             localStorage.setItem("name", p.data.Name);
-            props.history.push("/map");
+            props.history.push("/admindashboard/map");
           }}
         >
           Map

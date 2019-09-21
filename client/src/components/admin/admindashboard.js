@@ -26,6 +26,7 @@ import UpdateProfile from "./updateprofile";
 import AddPlace from "./addplace";
 import AllPlacesList from "./viewallleaves";
 import UpdatePlace from "./updateplace";
+import Map from "../users/showmap";
 
 const drawerWidth = 240;
 
@@ -242,6 +243,7 @@ export default function AdminDashboard(props) {
           path="/admindashboard/updateplace"
           component={UpdatePlace}
         />
+        <Route exact path="/admindashboard/map" component={Map} />
       </Switch>
     </div>
   );
