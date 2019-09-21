@@ -120,8 +120,8 @@ export default function ViewRPlace(props) {
           name={p.data.ID}
           className={classes.submit}
           onClick={e => {
-            localStorage.setItem("lat", p.data.latitude);
-            localStorage.setItem("lng", p.data.longitude);
+            localStorage.setItem("lat", p.data.Latitude);
+            localStorage.setItem("lng", p.data.Longitude);
             localStorage.setItem("text", p.data.Name);
             props.history.push("/map");
           }}
