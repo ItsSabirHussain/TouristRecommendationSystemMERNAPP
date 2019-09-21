@@ -7,6 +7,7 @@ import AdminLogin from "./components/adminlogin";
 import UserReg from "./components/userreg";
 import Userdashboard from "./components/users/userdashboard";
 import AdminDashboard from "./components/admin/admindashboard";
+import Map from "./components/users/showmap";
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             <Route exact path="/userreg" component={UserReg} />
             <Route path="/userdashboard" component={Userdashboard} />
             <Route path="/admindashboard" component={AdminDashboard} />
+            <Route path="/map" component={Map} />
 
             <Route component={NoMatch} />
           </Switch>

@@ -123,7 +123,7 @@ export default function ViewRPlace(props) {
             localStorage.setItem("lat", p.data.latitude);
             localStorage.setItem("lng", p.data.longitude);
             localStorage.setItem("text", p.data.Name);
-            props.history.push("/userdashboard/showmap");
+            props.history.push("/map");
           }}
         >
           Map

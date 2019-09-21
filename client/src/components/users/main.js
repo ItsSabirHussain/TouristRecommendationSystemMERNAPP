@@ -127,7 +127,7 @@ export default function Main(props) {
   const onClick = e => {
     e.preventDefault();
     axios
-      .post("/updateccity", { ID: 0, City: place })
+      .post("/updateccity", { ID: localStorage.getItem("userID"), City: place })
       .then(res => {
         props.history.push("/userdashboard/rplaces");
       })
@@ -163,9 +163,7 @@ export default function Main(props) {
             <Jumbotron>
               <h1 className="display-6">{"User Name: " + userInfo.FullName}</h1>
               <p className="lead">{"Email: " + userInfo.Email}</p>
-              <p className="lead">
-                {"Interests: " + userInfo.Interests.toString()}
-              </p>
+              <p className="lead">{"Interests: " + userInfo.Interests}</p>
 
               <hr className="my-2" />
               <p></p>

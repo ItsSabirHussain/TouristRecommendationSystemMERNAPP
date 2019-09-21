@@ -26,6 +26,7 @@
     "react-google-autocomplete": "^1.1.2",
     "react-google-location": "^1.2.2",
     "react-google-maps": "^9.4.5",
+    "react-map-gl": "^5.0.11",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",

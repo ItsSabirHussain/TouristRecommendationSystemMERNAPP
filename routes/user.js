@@ -112,7 +112,7 @@ router.route("/updateccity").post(function(req, res) {
   CurrentCity.findOne({ ID: req.body.ID }, function(err, cl) {
     if (!cl) {
       const city = CurrentCity({
-        ID: 0,
+        ID: req.body.ID,
         City: req.body.City
       });
       city
@@ -126,7 +126,7 @@ router.route("/updateccity").post(function(req, res) {
     } else {
       const newCity = CurrentCity({
         City: req.body.City,
-        ID: "0"
+        ID: req.body.ID
       });
       newCity
         .save()
@@ -144,7 +144,7 @@ router.post("/getrplaces", function(req, res) {
   console.log(req.body.ID);
   User.findOne({ ID: req.body.ID }, function(err, user) {
     const interests = user.Interests;
-    CurrentCity.findOne({ ID: "0" }, function(err, city) {
+    CurrentCity.findOne({ ID: req.body.ID }, function(err, city) {
       const ucity = city.City;
       Place.find({ City: ucity }, function(err, places) {
         if (places) {

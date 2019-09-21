@@ -1,52 +1,57 @@
-// src/App.js
-import React, { Component } from "react";
-import GoogleMap from "google-map-react";
+import React from "react";
+import { compose } from "recompose";
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+  InfoWindow
+} from "react-google-maps";
 
-const mapStyles = {
-  width: "100%",
-  height: "100%"
-};
-
-const markerStyle = {
-  height: "50px",
-  width: "50px",
-  marginTop: "-50px"
-};
-
-const imgStyle = {
-  height: "100%"
-};
-
-const Marker = ({ title }) => (
-  <div style={markerStyle}>
-    <img
-      style={imgStyle}
-      src="https://res.cloudinary.com/og-tech/image/upload/s--OpSJXuvZ--/v1545236805/map-marker_hfipes.png"
-      alt={title}
-    />
-    <h3>{title}</h3>
-  </div>
-);
-
-class Map extends Component {
-  render() {
-    return (
-      <div>
-        <GoogleMap
-          style={mapStyles}
-          bootstrapURLKeys={{ key: "GOOGLE_MAPS_API_KEY" }}
-          center={{ lat: 5.6219868, lng: -0.1733074 }}
-          zoom={14}
-        >
+const MapWithAMarker = compose(
+  withScriptjs,
+  withGoogleMap
+)(props => {
+  return (
+    <GoogleMap
+      defaultZoom={40}
+      defaultCenter={{
+        lat: Number(localStorage.getItem("lat")),
+        lng: Number(localStorage.getItem("lng"))
+      }}
+      fullscreenontrol="true"
+    >
+      {props.markers.map(marker => {
+        return (
           <Marker
-            title={"Current Location"}
-            lat={5.6219868}
-            lng={-0.1733074}
-          ></Marker>
-        </GoogleMap>
-      </div>
-    );
-  }
-}
+            key="283229"
+            position={{ lat: marker.latitude, lng: marker.longitude }}
+          >
+            {props.selectedMarker === marker && <InfoWindow></InfoWindow>}}
+          </Marker>
+        );
+      })}
+    </GoogleMap>
+  );
+});
 
-export default Map;
+export default function Map() {
+  const lat = localStorage.getItem("lat");
+  const lng = localStorage.getItem("lng");
+
+  return (
+    <MapWithAMarker
+      markers={[
+        {
+          id: 0,
+          latitude: Number(lat),
+          longitude: Number(lng)
+        }
+      ]}
+      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+      loadingElement={<div style={{ height: `100%` }} />}
+      containerElement={<div style={{ height: `400px` }} />}
+      mapElement={<div style={{ height: `100%` }} />}
+    />
+  );
+}
