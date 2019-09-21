@@ -2,6 +2,7 @@ import React from "react";
 import { compose } from "recompose";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   withScriptjs,
@@ -62,14 +63,7 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
+
   menuButton: {
     marginRight: 36
   },
@@ -79,15 +73,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1
   },
-  drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
+
   drawerPaperClose: {
     overflowX: "hidden",
     transition: theme.transitions.create("width", {

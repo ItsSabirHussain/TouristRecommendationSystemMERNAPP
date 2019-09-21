@@ -298,7 +298,7 @@ export default function UserReg(props) {
                 fullWidth
                 name="longitude"
                 label="Key"
-                type="text"
+                type="password"
                 id="longitude"
                 autoComplete="current-Key"
                 onChange={e =>
@@ -355,7 +355,7 @@ export default function UserReg(props) {
             className={classes.submit}
             onClick={onClick}
           >
-            Add Place
+            Sign Up
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
