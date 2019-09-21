@@ -14,10 +14,10 @@ const MapWithAMarker = compose(
 )(props => {
   return (
     <GoogleMap
-      defaultZoom={40}
+      defaultZoom={10}
       defaultCenter={{
-        lat: Number(localStorage.getItem("lat")),
-        lng: Number(localStorage.getItem("lng"))
+        lat: 25.2744,
+        lng: 133.7751
       }}
       fullscreenontrol="true"
     >
