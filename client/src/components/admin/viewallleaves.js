@@ -120,8 +120,8 @@ export default function AllPlacesList(props) {
           name={p.data.ID}
           className={classes.submit}
           onClick={e => {
-            localStorage.setItem("lat", p.data.longitude);
-            localStorage.setItem("lng", p.data.latitude);
+            localStorage.setItem("lat", p.data.Latitude);
+            localStorage.setItem("lng", p.data.Longitude);
             localStorage.setItem("name", p.data.Name);
             props.history.push("/map");
           }}
