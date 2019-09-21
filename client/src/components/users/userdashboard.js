@@ -23,7 +23,8 @@ import NotificationImportantIcon from "@material-ui/icons/NotificationImportant"
 import Main from "./main";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UpdateProfile from "./updateprofile";
-import Places from "./places";
+import ViewRPlace from "./places";
+import Map from "./showmap";
 
 const drawerWidth = 240;
 
@@ -190,11 +191,11 @@ export default function Userdashboard(props) {
               </ListItemIcon>
               <ListItemText>Dashboard</ListItemText>
             </ListItem>
-            <ListItem button component={Link} to="/userdashboard/places">
+            <ListItem button component={Link} to="/userdashboard/rplaces">
               <ListItemIcon>
                 <PeopleIcon fontSize="large" />
               </ListItemIcon>
-              <ListItemText primary="Places" />
+              <ListItemText primary=" Recomended Places" />
             </ListItem>
             <ListItem button component={Link} to="/userdashboard/updateprofile">
               <ListItemIcon>
@@ -215,7 +216,8 @@ export default function Userdashboard(props) {
           path="/userdashboard/updateprofile"
           component={UpdateProfile}
         />
-        <Route exact path="/userdashboard/places" component={Places} />
+        <Route exact path="/userdashboard/rplaces" component={ViewRPlace} />
+        <Route exact path="/userdashboard/map" component={Map} />
       </Switch>
     </div>
   );

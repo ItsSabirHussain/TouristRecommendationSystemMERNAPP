@@ -118,15 +118,7 @@ export default function AdminLogin(props) {
             Sign In
           </Button>
           <Grid container>
-            <Grid item>
-              <Link
-                to="/promanreg"
-                variant="body2"
-                style={{ textDecoration: "none" }}
-              >
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+            <Grid item></Grid>
           </Grid>
         </form>
       </div>

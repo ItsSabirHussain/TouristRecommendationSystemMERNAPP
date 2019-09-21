@@ -4,24 +4,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 
-// Load input validation
-const validateProManRegistration = require("../validation/admin");
-const validateProManLogin = require("../validation/promanlogin");
-
-// Load User model
 const Admin = require("../models/admin");
 const Place = require("../models/place");
 
-// @route POST /adminregisteration
-// @desc Register user
-// @access Public
 router.post("/promanreg", (req, res) => {
-  // Form validation
-  const { errors, isValid } = validateProManRegistration(req.body);
-  // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
   Admin.findOne({ ID: req.body.ID }).then(proman => {
     if (proman) {
       return res.status(400).json({ ID: "ID already exists" });
@@ -32,68 +18,45 @@ router.post("/promanreg", (req, res) => {
         ID: req.body.ID,
         Key: req.body.Key
       });
-
-      console.log(newProMan);
-
-      // Hash key before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newProMan.Key, salt, (err, hash) => {
-          console.log(err);
-          if (err) throw err;
-          newProMan.Key = hash;
-          newProMan
-            .save()
-            .then(admin => res.json(newProMan))
-            .catch(err => console.log(err));
-        });
-      });
+      newProMan
+        .save()
+        .then(admin => res.json(newProMan))
+        .catch(err => console.log(err));
     }
   });
 });
 
-// @route POST /adminlogin
-// @desc Login admin and return JWT token
-// @access Public
 router.post("/adminlogin", (req, res) => {
   const ID = req.body.ID;
   const Key = req.body.Key;
-  console.log(ID);
-  console.log(Key);
-  // Find admin by id
   Admin.findOne({ ID: req.body.ID }).then(admin => {
-    // Check if admin exists
     if (!admin) {
       return res.status(404).json({ IDNotFound: "ID not found" });
     }
-    // Check password
-    bcrypt.compare(Key, admin.Key).then(isMatch => {
-      if (isMatch) {
-        // Admin matched
-        // Create JWT Payload
-        const payload = {
-          id: admin.id,
-          ID: admin.ID
-        };
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res.status(400).json({ passwordincorrect: "Key incorrect" });
-      }
-    });
+    if (req.body.Key == admin.Key) {
+      const payload = {
+        id: admin.id,
+        ID: admin.ID
+      };
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926 // 1 year in seconds
+        },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        }
+      );
+    } else {
+      return res.status(400).json({ passwordincorrect: "Key incorrect" });
+    }
   });
 });
+
 router.post("/getadmin", function(req, res) {
   console.log(req.body);
   Admin.findOne({ ID: req.body.ID }, function(err, admin) {
@@ -106,26 +69,11 @@ router.post("/getadmin", function(req, res) {
 });
 
 router.route("/aupdateprofile").post(function(req, res) {
-  Admin.findOne({ ID: req.body.ID }, function(err, admin) {
+  Admin.findOne({ ID: req.body.IDD }, function(err, admin) {
     admin.FullName = req.body.FullName;
     admin.ID = req.body.ID;
-    if (req.body.Key === "") {
-      admin.Key = req.body.Key;
-    }
+    admin.Key = req.body.Key;
     admin.Email = req.body.Email;
-    if (!admin.Key === "") {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(admin.Key, salt, (err, hash) => {
-          console.log(err);
-          if (err) throw err;
-          admin.Key = hash;
-          admin
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-        });
-      });
-    }
     admin
       .save()
       .then(user => res.json(user))
@@ -134,7 +82,7 @@ router.route("/aupdateprofile").post(function(req, res) {
 });
 
 router.post("/addplace", (req, res) => {
-  console.log("here");
+  console.log(req.body.Tags);
 
   Place.findOne({
     Latitude: req.body.Longitude,
@@ -143,6 +91,7 @@ router.post("/addplace", (req, res) => {
     if (place) {
       return res.status(400).json({ ID: "Place already exists" });
     } else {
+      console.log(req.body.Tags);
       const newPlace = new Place({
         Name: req.body.Name,
         Category: req.body.Category,
@@ -156,6 +105,42 @@ router.post("/addplace", (req, res) => {
         .then(user => res.json(user))
         .catch(err => console.log(err));
     }
+  });
+});
+
+router.post("/getallplaces", function(req, res) {
+  Place.find({}, function(err, admin) {
+    if (admin) {
+      return res.json(admin);
+    } else {
+      return res.json({ message: "User not found" });
+    }
+  });
+});
+
+router.post("/getplace", function(req, res) {
+  Place.findOne({ _id: req.body._id }, function(err, place) {
+    if (place) {
+      return res.json(place);
+    } else {
+      return res.json({ message: "Place not found" });
+    }
+  });
+});
+
+router.route("/updateplace").post(function(req, res) {
+  console.log(req.body.Tags);
+  Place.findOne({ _id: req.body._id }, function(err, place) {
+    place.Name = req.body.Name;
+    place.Category = req.body.Category;
+    place.Latitude = req.body.Latitude;
+    place.Longitude = req.body.Longitude;
+    place.City = req.body.City;
+    place.Tags = req.body.Tags;
+    place
+      .save()
+      .then(user => res.json(user))
+      .catch(err => console.log(err));
   });
 });
 

@@ -15,8 +15,7 @@ const Place = new Schema({
     type: String
   },
   Tags: {
-    type: String,
-    value: [String]
+    type: []
   },
   City: {
     type: String

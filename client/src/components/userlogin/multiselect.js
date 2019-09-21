@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
@@ -163,6 +163,9 @@ export default function MultipleSelect() {
     setInterestsList(event.target.value);
     localStorage.setItem("interests", interestsList);
   }
+  useEffect(() => {
+    localStorage.setItem("interests", interestsList);
+  });
 
   return (
     <div className={classes.root}>

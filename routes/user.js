@@ -6,6 +6,8 @@ const keys = require("../config/keys");
 
 // Load User model
 const User = require("../models/user");
+const CurrentCity = require("../models/currentcity");
+const Place = require("../models/place");
 
 // @route POST /userregistration
 // @desc Register user
@@ -22,18 +24,11 @@ router.post("/userreg", (req, res) => {
         Key: req.body.Key,
         Interests: req.body.Interests
       });
-      // Hash key before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newCUser.Key, salt, (err, hash) => {
-          console.log(err);
-          if (err) throw err;
-          newCUser.Key = hash;
-          newCUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-        });
-      });
+
+      newCUser
+        .save()
+        .then(user => res.json(user))
+        .catch(err => console.log(err));
     }
   });
 });
@@ -51,39 +46,38 @@ router.post("/userlogin", (req, res) => {
       return res.status(404).json({ IDNotFound: "ID not found" });
     }
     // Check password
-    bcrypt.compare(Key, user.Key).then(isMatch => {
-      if (isMatch) {
-        // User matched
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          ID: user.ID
-        };
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res.status(400).json({ keyincorrect: "Key incorrect" });
-      }
-    });
+    if ((req.body.Key = user.Key)) {
+      // User matched
+      // Create JWT Payload
+      const payload = {
+        id: user.id,
+        ID: user.ID
+      };
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926 // 1 year in seconds
+        },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        }
+      );
+    } else {
+      return res.status(400).json({ keyincorrect: "Key incorrect" });
+    }
   });
 });
 
 router.post("/getuser", function(req, res) {
-  console.log(req.body);
   User.findOne({ ID: req.body.ID }, function(err, user) {
     if (user) {
+      console.log(user.Interests);
+
       return res.json(user);
     } else {
       return res.json({ message: "User not found" });
@@ -92,19 +86,20 @@ router.post("/getuser", function(req, res) {
 });
 
 router.route("/updateprofile").post(function(req, res) {
-  User.findOne({ ID: req.body.ID }, function(err, user) {
+  console.log(req.body);
+  User.findOne({ _id: req.body._id }, function(err, user) {
     if (!user) res.status(404).send("data is not found");
     else {
+      console.log("There");
       user.FullName = req.body.FullName;
       user.ID = req.body.ID;
       user.Key = req.body.Key;
       user.Email = req.body.Email;
       user.Interests = req.body.Interests;
-
       user
         .save()
         .then(todo => {
-          res.json("Profile updated");
+          res.json({ message: "Profile updated" });
         })
         .catch(err => {
           res.status(400).send("Profile not possible");
@@ -113,21 +108,70 @@ router.route("/updateprofile").post(function(req, res) {
   });
 });
 
-router.route("/ucurrentcity").post(function(req, res) {
+router.route("/updateccity").post(function(req, res) {
   CurrentCity.findOne({ ID: req.body.ID }, function(err, cl) {
-    if (!cl) res.status(404).send("data is not found");
-    else {
-      cl.City = req.body.City;
-      cl.ID = "0";
-
-      cl.save()
+    if (!cl) {
+      const city = CurrentCity({
+        ID: 0,
+        City: req.body.City
+      });
+      city
+        .save()
         .then(todo => {
-          res.json("City updated");
+          return res.json("City updated");
         })
         .catch(err => {
-          res.status(400).send("City update not possible");
+          return res.status(400).send("City update not possible");
+        });
+    } else {
+      const newCity = CurrentCity({
+        City: req.body.City,
+        ID: "0"
+      });
+      newCity
+        .save()
+        .then(todo => {
+          return res.json("City updated");
+        })
+        .catch(err => {
+          return res.status(400).send("City update not possible");
         });
     }
+  });
+});
+
+router.post("/getrplaces", function(req, res) {
+  console.log(req.body.ID);
+  User.findOne({ ID: req.body.ID }, function(err, user) {
+    const interests = user.Interests;
+    CurrentCity.findOne({ ID: "0" }, function(err, city) {
+      const ucity = city.City;
+      Place.find({ City: ucity }, function(err, places) {
+        if (places) {
+          console.log("List of all places");
+          console.log(places);
+          const result = [];
+          chk = false;
+          places.forEach((v, i, a) => {
+            console.log("outer" + i);
+            chk = false;
+            console.log(v.Tags[0].split(","));
+            v.Tags[0].split(",").forEach((vv, ii, aa) => {
+              console.log("inner" + ii);
+              if (interests.includes(vv)) {
+                console.log("Added");
+                chk = true;
+              }
+            });
+            if (chk) {
+              result.push(v);
+            }
+          });
+          return res.json(places);
+        } else {
+        }
+      });
+    });
   });
 });
 

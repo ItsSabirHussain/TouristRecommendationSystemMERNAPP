@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { Jumbotron } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
-import { GoogleComponent } from "./locationtextbox/googlecomponent";
+import TextField from "@material-ui/core/TextField";
 import Geocode from "react-geocode";
 
 const API_KEY = "AIzaSyDWpi_sAXeY7VB7_Btf1dUHjE5y6sEg03w";
@@ -120,79 +120,74 @@ export default function Main(props) {
   const classes = useStyles();
   const [userInfo, setUserInfo] = React.useState({
     FullName: "",
-    Email: ""
+    Email: "",
+    Interests: []
   });
 
   const onClick = e => {
-    console.log(place);
+    e.preventDefault();
+    axios
+      .post("/updateccity", { ID: 0, City: place })
+      .then(res => {
+        props.history.push("/userdashboard/rplaces");
+      })
+      .catch(error => console.log(error));
   };
-  const { latitude, longitude, timestamp, accuracy, error } = usePosition(true);
 
   useEffect(() => {
-    Geocode.fromLatLng("48.8583701", "2.2922926").then(
-      response => {
-        const address = response.results[0].formatted_address;
-        console.log(address);
-      },
-      error => {
-        console.error(error);
-      }
-    );
-
-    // Get latidude & longitude from address.
-    Geocode.fromAddress("Eiffel Tower").then(
-      response => {
-        const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
-      },
-      error => {
-        console.error(error);
-      }
-    );
-
     if (userInfo.FullName === "") {
       axios
         .post("/getuser", { ID: localStorage.getItem("userID") })
         .then(res => {
           console.log(res);
+          localStorage.setItem("updateID", res._id);
           setUserInfo({
             Email: res.data.Email,
-            FullName: res.data.FullName
+            FullName: res.data.FullName,
+            Interests: res.data.Interests
           });
           console.log(res);
         })
         .catch(error => console.log(error));
     }
   });
-  const [place, setPlace] = useState(null);
+
+  const [place, setPlace] = useState("");
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing={3}>
           {/* User Details */}
-          <Grid item xs={12} md={8} lg={9}>
+          <Grid item xs={12}>
             <Jumbotron>
               <h1 className="display-6">{"User Name: " + userInfo.FullName}</h1>
               <p className="lead">{"Email: " + userInfo.Email}</p>
+              <p className="lead">
+                {"Interests: " + userInfo.Interests.toString()}
+              </p>
+
               <hr className="my-2" />
               <p></p>
               <p className="lead"></p>
             </Jumbotron>
             <Grid item xs={12} md={8} lg={9}>
+              <br></br>
               <Grid item xs={12}>
-                <GoogleComponent
-                  apiKey={API_KEY}
-                  language={"en"}
-                  country={"country:in"}
-                  coordinates={true}
-                  onChange={e => {
-                    setPlace({ place: e });
-                  }}
+                <TextField
+                  autoComplete="fname"
+                  name="Name"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="Name"
+                  label="Enter City Here"
+                  autoFocus
+                  onChange={e => setPlace(e.target.value)}
                 />
               </Grid>
               <br></br>
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid item xs={12} md={4}>
                 <Button
                   fullWidth
                   variant="contained"
@@ -200,7 +195,7 @@ export default function Main(props) {
                   className={classes.submit}
                   onClick={onClick}
                 >
-                  Update Profile
+                  Update City
                 </Button>
               </Grid>
             </Grid>

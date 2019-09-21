@@ -5,9 +5,14 @@
   "dependencies": {
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
+    "@types/googlemaps": "^3.37.7",
+    "@types/markerclustererplus": "^2.1.33",
+    "@types/react": "^16.9.2",
+    "ajv": "^6.10.2",
     "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "formik": "^1.5.8",
+    "google-map-react": "^1.1.5",
     "material-ui": "^0.20.2",
     "material-ui-icons": "^1.0.0-beta.36",
     "mdb-cli": "^1.1.17",
@@ -43,5 +48,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "install-peers": "^1.0.3"
+  }
 }

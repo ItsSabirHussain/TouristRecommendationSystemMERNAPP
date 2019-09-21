@@ -59,7 +59,6 @@ const Home = () => {
               </div>
             </div>
           </h1>
-          <p>Navigation</p>
         </div>
       </div>
     </div>

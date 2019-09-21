@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ViewRPlace(props) {
+export default function AllPlacesList(props) {
   function AllPlacesList(p) {
     return p.map(function(cdata, i) {
       return <Data data={cdata} key={i} />;
@@ -119,14 +119,23 @@ export default function ViewRPlace(props) {
           color="primary"
           name={p.data.ID}
           className={classes.submit}
-          onClick={e => {
-            localStorage.setItem("lat", p.data.latitude);
-            localStorage.setItem("lng", p.data.longitude);
-            localStorage.setItem("text", p.data.Name);
-            props.history.push("/userdashboard/showmap");
-          }}
+          onClick={e => {}}
         >
           Map
+        </Button>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          name={p.data.ID}
+          className={classes.submit}
+          onClick={e => {
+            console.log(p.data._id);
+            localStorage.setItem("ep_id", p.data._id);
+            props.history.push("/admindashboard/updateplace");
+          }}
+        >
+          Update
         </Button>
       </td>
     </tr>
@@ -137,7 +146,7 @@ export default function ViewRPlace(props) {
   useEffect(() => {
     if (AllPlaces.length < 1) {
       axios
-        .post("/getrplaces", { ID: localStorage.getItem("userID") })
+        .post("/getallplaces", {})
         .then(res => {
           console.log(res);
           setAllPlaces(res.data);
@@ -162,7 +171,7 @@ export default function ViewRPlace(props) {
                     <tr>
                       <th>Place Name</th>
                       <th>Category</th>
-                      <th>Interest</th>
+                      <th>Tags</th>
                       <th>Map View</th>
                     </tr>
                   </thead>

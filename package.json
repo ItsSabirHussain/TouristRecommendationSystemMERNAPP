@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@khanacademy/react-multi-select": "^0.3.3",
     "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -21,6 +22,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "file-type": "^4.3.0",
+    "google-map-react": "^1.1.5",
     "gridfs-stream": "^1.1.1",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",

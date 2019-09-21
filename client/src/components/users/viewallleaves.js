@@ -119,12 +119,7 @@ export default function ViewRPlace(props) {
           color="primary"
           name={p.data.ID}
           className={classes.submit}
-          onClick={e => {
-            localStorage.setItem("lat", p.data.latitude);
-            localStorage.setItem("lng", p.data.longitude);
-            localStorage.setItem("text", p.data.Name);
-            props.history.push("/userdashboard/showmap");
-          }}
+          onClick={e => {}}
         >
           Map
         </Button>
@@ -135,9 +130,10 @@ export default function ViewRPlace(props) {
   const [AllPlaces, setAllPlaces] = useState([]);
   const classes = useStyles();
   useEffect(() => {
-    if (AllPlaces.length < 1) {
+    console.log(AllPlaces);
+    if (AllPlaces.length < 0) {
       axios
-        .post("/getrplaces", { ID: localStorage.getItem("userID") })
+        .post("/getrplaces", {})
         .then(res => {
           console.log(res);
           setAllPlaces(res.data);
@@ -162,7 +158,7 @@ export default function ViewRPlace(props) {
                     <tr>
                       <th>Place Name</th>
                       <th>Category</th>
-                      <th>Interest</th>
+                      <th>Tags</th>
                       <th>Map View</th>
                     </tr>
                   </thead>

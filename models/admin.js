@@ -9,12 +9,10 @@ const Admin = new Schema({
     type: String
   },
   ID: {
-    type: String,
-    required: true
+    type: String
   },
   Key: {
-    type: String,
-    required: true
+    type: String
   }
 });
 module.exports = mongoose.model("Admin", Admin);

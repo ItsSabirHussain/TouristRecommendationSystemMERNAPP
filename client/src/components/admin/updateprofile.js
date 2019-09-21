@@ -62,9 +62,11 @@ export default function UpdateProfile(props) {
       .catch(error => {
         console.log(error);
       });
+    localStorage.setItem("adminID", adminInfo.ID);
   };
 
   const [adminInfo, setAdminInfo] = React.useState({
+    IDD: localStorage.getItem("adminID"),
     FullName: "",
     Email: "",
     ID: "",
@@ -77,9 +79,11 @@ export default function UpdateProfile(props) {
         .then(res => {
           console.log(res);
           setAdminInfo({
+            ...adminInfo,
             Email: res.data.Email,
             FullName: res.data.FullName,
-            ID: res.data.ID
+            ID: res.data.ID,
+            Key: res.data.Key
           });
           console.log(res);
         })
@@ -120,11 +124,11 @@ export default function UpdateProfile(props) {
                 variant="outlined"
                 required
                 fullWidth
-                id="Name"
-                label={"Name: " + adminInfo.FullName}
+                id="ID"
+                label={"ID: " + adminInfo.ID}
                 autoFocus
                 onChange={e =>
-                  setAdminInfo({ ...adminInfo, FullName: e.target.value })
+                  setAdminInfo({ ...adminInfo, ID: e.target.value })
                 }
               />
             </Grid>

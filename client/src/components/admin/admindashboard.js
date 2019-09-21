@@ -24,6 +24,8 @@ import Main from "./main";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import UpdateProfile from "./updateprofile";
 import AddPlace from "./addplace";
+import AllPlacesList from "./viewallleaves";
+import UpdatePlace from "./updateplace";
 
 const drawerWidth = 240;
 
@@ -188,7 +190,17 @@ export default function AdminDashboard(props) {
               <ListItemIcon>
                 <DashboardIcon fontSize="large" />
               </ListItemIcon>
-              <ListItemText>Dashboard</ListItemText>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/admindashboard/viewallplaces"
+            >
+              <ListItemIcon>
+                <DashboardIcon fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="View All Places" />
             </ListItem>
             <ListItem button component={Link} to="/admindashboard/addplace">
               <ListItemIcon>
@@ -220,6 +232,16 @@ export default function AdminDashboard(props) {
           component={UpdateProfile}
         />
         <Route exact path="/admindashboard/addplace" component={AddPlace} />
+        <Route
+          exact
+          path="/admindashboard/viewallplaces"
+          component={AllPlacesList}
+        />
+        <Route
+          exact
+          path="/admindashboard/updateplace"
+          component={UpdatePlace}
+        />
       </Switch>
     </div>
   );
