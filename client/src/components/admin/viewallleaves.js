@@ -119,7 +119,12 @@ export default function AllPlacesList(props) {
           color="primary"
           name={p.data.ID}
           className={classes.submit}
-          onClick={e => {}}
+          onClick={e => {
+            localStorage.setItem("lat", p.data.longitude);
+            localStorage.setItem("lng", p.data.latitude);
+            localStorage.setItem("name", p.data.Name);
+            props.history.push("/map");
+          }}
         >
           Map
         </Button>
