@@ -36,7 +36,7 @@
     "react-native": "^0.60.5",
     "react-native-geocoder": "^0.5.0",
     "react-strap": "0.0.1",
-    "validator": "^11.1.0",
+    "validator": "^13.7.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
